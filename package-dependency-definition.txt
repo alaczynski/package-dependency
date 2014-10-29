@@ -1,0 +1,25 @@
+show allResults
+
+# sets definition
+{base-package} = org.alaczynski
+[project] = ${base-package}.*
+[application] = ${base-package}.application.*
+[domain] = ${base-package}.domain.*
+[infrastructure] = ${base-package}.infrastructure.*
+[util] = ${base-package}.util.*
+
+# layers definition
+layer util = [util]
+layer domain = [domain]
+layer application = [application]
+layer infrastructure = [infrastructure]
+
+# check sets definition
+check sets [project] [application] [domain] [infrastructure] [util]
+
+# check layers
+check layeringOf util domain application infrastructure
+
+# check cycles
+check absenceOfPackageCycles > 1 in [project]
+check absenceOfClassCycles > 1 in [project]

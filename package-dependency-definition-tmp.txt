@@ -1,0 +1,15 @@
+show allResults
+{package} = org.alaczynski
+[java] = java.* excluding java.lang.String java.lang.Object
+[asl] = ${package}.*
+[app] = ${package}.app.*
+[domain] = ${package}.domain.*
+[infra] = ${package}.infra.*
+[util] = ${package}.util.*
+layer app = [app]
+layer domain = [domain]
+layer util = [util]
+check absenceOfPackageCycles  > 1 in [asl]
+check [asl] independentOf [java]
+check [util] dependentOnlyOn java.*
+check layeringOf domain  util app
